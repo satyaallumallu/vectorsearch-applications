@@ -22,7 +22,7 @@ from rich import print  # nice library that provides improved printing output (o
 #read env vars from local .env file
 api_key = os.environ['WEAVIATE_API_KEY']
 url = os.environ['WEAVIATE_ENDPOINT']
-model_path = 'sentence-transformers/all-MiniLM-L6-v2'
+model_path = 'sentence-transformers/multi-qa-MiniLM-L6-cos-v1'
 #print(api_key)
 #instantiate client, 
 client = WeaviateWCS(endpoint=url, api_key=api_key, model_name_or_path=model_path)
@@ -33,7 +33,7 @@ print(client._client.is_live())
 # client = get_weaviate_client()
 
 #### Load Data
-data_path = '/Users/sallumallu/Desktop/Online_Courses/Uplimit/RAG/huberman-minilmL6-256.parquet'
+data_path = '/Users/sallumallu/Desktop/Online_Courses/Uplimit/RAG/huberman-multiqaMiniLML6cosv1-256.parquet'
 
 data = FileIO.load_parquet(data_path)
 print(data[0].keys())
@@ -44,16 +44,16 @@ print(properties)
 
 ####
 #create your own Collection name or use the example from above
-collection_name = 'Huberman_minilm_256' # 'Huberman_minilm_256'
+collection_name = 'Huberman_multiqaMiniLML6cosv1_256' # 'Huberman_minilm_256'
 
-""" ####
+####
 client.create_collection(collection_name=collection_name, properties=properties, description='Huberman Labs: 193 full-length transcripts')
 print(client.show_collection_config(collection_name))
 
 ####
 indexer = WeaviateIndexer(client)
 batch_object = indexer.batch_index_data(data, collection_name)
- """
+
 total_docs = client.get_doc_count(collection_name)
 print(total_docs)
 
